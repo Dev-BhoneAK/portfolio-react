@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -33,6 +33,25 @@ const socials = [
 ];
 
 const Header = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const appBarRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  });
+
+  const handleScroll = (e) => {
+    const newScrollPosition = window.scrollY;
+    setScrollPosition(newScrollPosition);
+    if (scrollPosition < newScrollPosition) {
+      console.log(newScrollPosition + " is greater");
+      appBarRef.current.style.transform = "translateY(0)";
+    } else {
+      console.log(newScrollPosition + " is less");
+
+      appBarRef.current.style.transform = "translateY(-200)";
+    }
+  };
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -55,6 +74,7 @@ const Header = () => {
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
+      ref={appBarRef}
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
