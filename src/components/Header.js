@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -33,21 +33,6 @@ const socials = [
 ];
 
 const Header = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  });
-
-  const handleScroll = (e) => {
-    const newScrollPosition = window.scrollY;
-    setScrollPosition(newScrollPosition);
-    if (scrollPosition < newScrollPosition) {
-    } else {
-    }
-    console.log(newScrollPosition);
-  };
-
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -80,8 +65,8 @@ const Header = () => {
         >
           <nav>
             <HStack spacing={8}>
-              {socials.map((social) => (
-                <a href={social.url} key={social.icon}>
+              {socials.map((social, index) => (
+                <a href={social.url} key={index}>
                   <FontAwesomeIcon icon={social.icon} size="2x" />
                 </a>
               ))}
