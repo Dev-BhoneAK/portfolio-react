@@ -33,25 +33,28 @@ const socials = [
 ];
 
 const Header = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
   const appBarRef = useRef(null);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  });
+    let oldScrollPosition = window.scrollY;
 
-  const handleScroll = (e) => {
-    const newScrollPosition = window.scrollY;
-    setScrollPosition(newScrollPosition);
-    if (scrollPosition < newScrollPosition) {
-      console.log(newScrollPosition + " is greater");
+    window.addEventListener("scroll", handleScroll(oldScrollPosition));
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = (prevScrollPos) => () => {
+    const currentScrollPos = window.scrollY;
+    if (prevScrollPos > currentScrollPos) {
       appBarRef.current.style.transform = "translateY(0)";
     } else {
-      console.log(newScrollPosition + " is less");
-
-      appBarRef.current.style.transform = "translateY(-200)";
+      appBarRef.current.style.transform = "translateY(-200px)";
     }
+    prevScrollPos = currentScrollPos;
   };
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
